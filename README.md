@@ -71,5 +71,5 @@ MIT; see [LICENSE](LICENSE). Dependency licenses remain their own.
 
 This extension has an independent Git history. In the compiler workspace it is
 mounted as the `ide/vscode` submodule. Its public repository is
-[nylang/nylang-ide](https://github.com/nylang/nylang-ide). Generated VSIX files
+[nylang/nylang-ide-vscode](https://github.com/nylang/nylang-ide-vscode). Generated VSIX files
 and `node_modules/` are excluded from Git.
