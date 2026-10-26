@@ -1,0 +1,139 @@
+{
+  "name": "nyra-lang",
+  "displayName": "Nyra Language",
+  "description": "Syntax, themes, LSP, and debug for Nyra (.ny / .ni)",
+  "version": "0.24.0",
+  "publisher": "nyra",
+  "main": "./extension.js",
+  "activationEvents": [
+    "onLanguage:nyra",
+    "onCommand:nyra.showOutput",
+    "onCommand:nyra.restartAnalyzer",
+    "onCommand:nyra.debug.currentFile",
+    "onCommand:nyra.debug.initWorkspace",
+    "onTaskType:nyra"
+  ],
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "scripts": {
+    "check": "node --check extension.js && node --check debugSupport.js && node --check analyzerPath.js && node --check windowToolchain.js",
+    "test": "npm run check && node scripts/smoke-analyzer-path.js && node scripts/smoke-extension-lifecycle.js && node scripts/smoke-debug-support.js"
+  },
+  "categories": [
+    "Programming Languages",
+    "Debuggers",
+    "Themes"
+  ],
+  "contributes": {
+    "languages": [
+      {
+        "id": "nyra",
+        "aliases": [
+          "Nyra",
+          "nyra"
+        ],
+        "extensions": [
+          ".ny",
+          ".ni"
+        ],
+        "configuration": "./language-configuration.json"
+      }
+    ],
+    "configuration": {
+      "title": "Nyra",
+      "properties": {
+        "nyra.sdkPath": {
+          "type": "string",
+          "default": "",
+          "description": "Nyra SDK / repo root. Analyzer resolves to <sdkPath>/bin/nyra-analyzer (Nyra product LSP). Empty means the current workspace root."
+        },
+        "nyra.analyzerPath": {
+          "type": "string",
+          "default": "",
+          "description": "Override path to the language server. Empty means <sdkPath>/bin/nyra-analyzer."
+        },
+        "nyra.compilerPath": {
+          "type": "string",
+          "default": "",
+          "description": "Path to product compiler for debug builds. Empty means <sdkPath>/bin/nyrac."
+        },
+        "nyra.debugAdapter": {
+          "type": "string",
+          "enum": [
+            "auto",
+            "lldb",
+            "cppdbg"
+          ],
+          "default": "auto",
+          "description": "Native debugger: auto (prefer CodeLLDB), lldb, or cppdbg (Microsoft C/C++)."
+        }
+      }
+    },
+    "taskDefinitions": [
+      {
+        "type": "nyra",
+        "required": [],
+        "properties": {
+          "target": {
+            "type": "string",
+            "enum": [
+              "debug",
+              "release"
+            ],
+            "description": "Build profile (debug uses DWARF from the LLVM pipeline)"
+          },
+          "file": {
+            "type": "string",
+            "description": "Entry .ny path; omit to use ${file}"
+          },
+          "label": {
+            "type": "string",
+            "description": "Task label shown in VS Code"
+          }
+        }
+      }
+    ],
+    "commands": [
+      {
+        "command": "nyra.restartAnalyzer",
+        "title": "Nyra: Restart Analyzer"
+      },
+      {
+        "command": "nyra.showOutput",
+        "title": "Nyra: Show Output"
+      },
+      {
+        "command": "nyra.debug.currentFile",
+        "title": "Nyra: Debug Current File"
+      },
+      {
+        "command": "nyra.debug.initWorkspace",
+        "title": "Nyra: Initialize Debug Workspace"
+      }
+    ],
+    "grammars": [
+      {
+        "language": "nyra",
+        "scopeName": "source.nyra",
+        "path": "./syntaxes/nyra.tmLanguage.json"
+      }
+    ],
+    "themes": [
+      {
+        "label": "Nyra Slate Dark",
+        "uiTheme": "vs-dark",
+        "path": "./themes/nyra-slate-dark-color-theme.json"
+      },
+      {
+        "label": "Nyra Mist Light",
+        "uiTheme": "vs",
+        "path": "./themes/nyra-mist-light-color-theme.json"
+      }
+    ]
+  },
+  "dependencies": {
+    "vscode-languageclient": "^9.0.1"
+  },
+  "license": "MIT"
+}

@@ -1,0 +1,68 @@
+{
+  "name": "Nyra Mist Light",
+  "type": "light",
+  "colors": {
+    "editor.background": "#F2F5F7",
+    "editor.foreground": "#1A2430",
+    "editorLineNumber.foreground": "#8A97A3",
+    "editor.selectionBackground": "#C5E4DE",
+    "editorCursor.foreground": "#0F7A6E",
+    "sideBar.background": "#E8EEF2",
+    "activityBar.background": "#DFE7EC",
+    "statusBar.background": "#1A2430",
+    "statusBar.foreground": "#E8EEF2",
+    "titleBar.activeBackground": "#E8EEF2",
+    "tab.activeBackground": "#F2F5F7",
+    "tab.inactiveBackground": "#E8EEF2"
+  },
+  "tokenColors": [
+    {
+      "scope": ["comment", "comment.line.double-slash.nyra", "comment.block.nyra"],
+      "settings": { "foreground": "#6A7A6E" }
+    },
+    {
+      "scope": ["keyword.control.nyra", "storage.modifier.nyra", "keyword"],
+      "settings": { "foreground": "#0F7A6E" }
+    },
+    {
+      "scope": ["storage.type.declaration.nyra", "storage.type.declaration.function.nyra", "storage"],
+      "settings": { "foreground": "#0B6E8A" }
+    },
+    {
+      "scope": ["keyword.other.ownership.nyra", "keyword.other.nyra"],
+      "settings": { "foreground": "#3B7A2E" }
+    },
+    {
+      "scope": ["string", "string.quoted.double.nyra", "string.quoted.single.nyra"],
+      "settings": { "foreground": "#9A5B2E" }
+    },
+    {
+      "scope": ["constant.numeric", "constant.numeric.integer.nyra", "constant.numeric.float.nyra"],
+      "settings": { "foreground": "#4A6B2E" }
+    },
+    {
+      "scope": ["constant.language", "constant.language.boolean.nyra"],
+      "settings": { "foreground": "#1F6BB5" }
+    },
+    {
+      "scope": ["storage.type.primitive.nyra", "entity.name.type", "entity.name.type.nyra", "support.type"],
+      "settings": { "foreground": "#0D7A6A" }
+    },
+    {
+      "scope": ["entity.name.function", "entity.name.function.nyra", "entity.name.function.member.nyra", "support.function"],
+      "settings": { "foreground": "#8A6A10" }
+    },
+    {
+      "scope": ["entity.other.attribute-name.nyra"],
+      "settings": { "foreground": "#6B4A9A" }
+    },
+    {
+      "scope": ["variable.language.self.nyra"],
+      "settings": { "foreground": "#B8452E" }
+    },
+    {
+      "scope": ["keyword.operator.nyra"],
+      "settings": { "foreground": "#4A5A68" }
+    }
+  ]
+}

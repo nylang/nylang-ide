@@ -1,0 +1,223 @@
+{
+  "name": "Nyra",
+  "scopeName": "source.nyra",
+  "patterns": [
+    { "include": "#comments" },
+    { "include": "#strings" },
+    { "include": "#chars" },
+    { "include": "#attributes" },
+    { "include": "#accessors" },
+    { "include": "#ownership" },
+    { "include": "#selfKeyword" },
+    { "include": "#keywords" },
+    { "include": "#typedefs" },
+    { "include": "#types" },
+    { "include": "#numbers" },
+    { "include": "#functions" },
+    { "include": "#methods" },
+    { "include": "#operators" },
+    { "include": "#constants" }
+  ],
+  "repository": {
+    "comments": {
+      "patterns": [
+        {
+          "name": "comment.line.double-slash.nyra",
+          "match": "//.*$"
+        },
+        {
+          "name": "comment.block.nyra",
+          "begin": "/\\*\\*?",
+          "end": "\\*/"
+        }
+      ]
+    },
+    "strings": {
+      "patterns": [
+        {
+          "name": "string.quoted.double.nyra",
+          "begin": "\"",
+          "end": "\"",
+          "patterns": [
+            {
+              "name": "constant.character.escape.nyra",
+              "match": "\\\\."
+            }
+          ]
+        }
+      ]
+    },
+    "chars": {
+      "patterns": [
+        {
+          "name": "string.quoted.single.nyra",
+          "match": "'(\\\\.|[^\\\\'])'"
+        }
+      ]
+    },
+    "attributes": {
+      "patterns": [
+        {
+          "name": "entity.other.attribute-name.nyra",
+          "match": "@[A-Za-z_][A-Za-z0-9_]*"
+        },
+        {
+          "name": "meta.attribute.arguments.nyra",
+          "begin": "(@[A-Za-z_][A-Za-z0-9_]*)\\s*(\\()",
+          "beginCaptures": {
+            "1": { "name": "entity.other.attribute-name.nyra" },
+            "2": { "name": "punctuation.section.group.begin.nyra" }
+          },
+          "end": "(\\))",
+          "endCaptures": {
+            "1": { "name": "punctuation.section.group.end.nyra" }
+          },
+          "patterns": [
+            {
+              "name": "string.quoted.double.attribute.nyra",
+              "begin": "\"",
+              "end": "\"",
+              "patterns": [
+                {
+                  "name": "constant.character.escape.nyra",
+                  "match": "\\\\."
+                }
+              ]
+            },
+            {
+              "name": "constant.numeric.attribute.nyra",
+              "match": "\\b\\d+\\b"
+            },
+            {
+              "name": "variable.parameter.attribute.nyra",
+              "match": "\\b[A-Za-z_][A-Za-z0-9_]*\\b"
+            }
+          ]
+        }
+      ]
+    },
+    "keywords": {
+      "patterns": [
+        {
+          "name": "keyword.control.nyra",
+          "match": "\\b(if|else|while|for|switch|case|default|break|continue|return|unsafe|asm|import|export|as|in|namespace|module|part|of)\\b"
+        },
+        {
+          "name": "storage.modifier.nyra",
+          "match": "\\b(pub|static|const|readonly|enable)\\b"
+        },
+        {
+          "name": "storage.type.declaration.nyra",
+          "match": "\\b(func|method|factory|struct|union|enum|interface|variant|typedef|operator|lambda|get|set|let|var|new|copy|move|delegate|extends|implements)\\b"
+        },
+        {
+          "name": "keyword.other.nyra",
+          "match": "\\b(holds|visit|sizeof|typeof|assert|static_assert|scope|once)\\b"
+        }
+      ]
+    },
+    "accessors": {
+      "patterns": [
+        {
+          "name": "meta.accessor.nyra",
+          "match": "\\b(get|set)\\s+([A-Za-z_][A-Za-z0-9_]*)\\b",
+          "captures": {
+            "1": { "name": "storage.type.declaration.nyra" },
+            "2": { "name": "variable.other.property.nyra" }
+          }
+        }
+      ]
+    },
+    "ownership": {
+      "patterns": [
+        {
+          "name": "keyword.other.ownership.nyra",
+          "match": "\\b(mut|ref|owned|unique|rc|arc|weak)\\b"
+        }
+      ]
+    },
+    "selfKeyword": {
+      "patterns": [
+        {
+          "name": "variable.language.self.nyra",
+          "match": "\\bself\\b"
+        }
+      ]
+    },
+    "typedefs": {
+      "patterns": [
+        {
+          "name": "meta.typedef.nyra",
+          "match": "\\b(typedef)\\s+([A-Za-z_][A-Za-z0-9_]*)\\b",
+          "captures": {
+            "1": { "name": "storage.type.declaration.nyra" },
+            "2": { "name": "entity.name.type.alias.nyra" }
+          }
+        }
+      ]
+    },
+    "types": {
+      "patterns": [
+        {
+          "name": "storage.type.primitive.nyra",
+          "match": "\\b(void|bool|string|int8|int16|int32|int64|intptr|uint8|uint16|uint32|uint64|uintptr|float32|float64|tuple|num|real)\\b"
+        },
+        {
+          "name": "entity.name.type.nyra",
+          "match": "\\b[A-Z][A-Za-z0-9_]*\\b"
+        }
+      ]
+    },
+    "numbers": {
+      "patterns": [
+        {
+          "name": "constant.numeric.float.nyra",
+          "match": "\\b\\d+\\.\\d+([eE][+-]?\\d+)?[fF]?\\b"
+        },
+        {
+          "name": "constant.numeric.integer.nyra",
+          "match": "\\b(0x[0-9A-Fa-f]+|0b[01]+|0o[0-7]+|\\d+)(u8|i8|u16|i16|u32|i32|u64|i64|up|ip|uint8|int8|uint16|int16|uint32|int32|uint64|int64|intptr|uintptr)?\\b"
+        }
+      ]
+    },
+    "functions": {
+      "patterns": [
+        {
+          "name": "meta.function.nyra",
+          "match": "\\b(func|factory)\\s*(\\([^\\)]*\\))?\\s*([A-Za-z_][A-Za-z0-9_]*)",
+          "captures": {
+            "1": { "name": "storage.type.declaration.function.nyra" },
+            "3": { "name": "entity.name.function.nyra" }
+          }
+        }
+      ]
+    },
+    "methods": {
+      "patterns": [
+        {
+          "name": "meta.method.nyra",
+          "match": "\\bmethod\\s*\\([^\\)]*\\)\\s*([A-Za-z_][A-Za-z0-9_]*)",
+          "captures": {
+            "1": { "name": "entity.name.function.member.nyra" }
+          }
+        }
+      ]
+    },
+    "operators": {
+      "patterns": [
+        {
+          "name": "keyword.operator.nyra",
+          "match": "->|=>|\\.\\.|==|!=|<=|>=|&&|\\|\\||[+\\-*/%<>=!&|^~]"
+        }
+      ]
+    },
+    "constants": {
+      "patterns": [
+        {
+          "name": "constant.language.boolean.nyra",
+          "match": "\\b(true|false|nil)\\b"
+        }
+      ]
+    }
+  }
+}

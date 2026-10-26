@@ -1,0 +1,6 @@
+node_modules/
+*.vsix
+.nyra-debug/
+cache/
+.DS_Store
+*.log
