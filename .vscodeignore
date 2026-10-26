@@ -4,3 +4,7 @@ scripts/**
 node_modules/**/test/**
 **/*.md
 !README.md
+!CHANGELOG.md
+
+# Keep editable artwork in Git; package the PNG assets used by VS Code.
+assets/*.svg

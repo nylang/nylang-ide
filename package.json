@@ -1,8 +1,8 @@
 {
   "name": "nyra-lang",
   "displayName": "Nyra Language",
-  "description": "Syntax, themes, LSP, and debug for Nyra (.ny / .ni)",
-  "version": "0.24.0",
+  "description": "Syntax, themes, LSP, and debug for Nyra (.ny / .ni / .nk)",
+  "version": "0.24.7",
   "publisher": "nyra",
   "main": "./extension.js",
   "activationEvents": [
@@ -11,14 +11,16 @@
     "onCommand:nyra.restartAnalyzer",
     "onCommand:nyra.debug.currentFile",
     "onCommand:nyra.debug.initWorkspace",
-    "onTaskType:nyra"
+    "onTaskType:nyra",
+    "onCommand:nyra.selectSdk",
+    "onCommand:nyra.installSdk"
   ],
   "engines": {
     "vscode": "^1.85.0"
   },
   "scripts": {
-    "check": "node --check extension.js && node --check debugSupport.js && node --check analyzerPath.js && node --check windowToolchain.js",
-    "test": "npm run check && node scripts/smoke-analyzer-path.js && node scripts/smoke-extension-lifecycle.js && node scripts/smoke-debug-support.js"
+    "check": "node --check extension.js && node --check debugSupport.js && node --check analyzerPath.js && node --check windowToolchain.js && node --check sdkDiscovery.js && node --check sdkInstaller.js && node --check sdkSupport.js",
+    "test": "npm run check && node scripts/smoke-analyzer-path.js && node scripts/smoke-extension-lifecycle.js && node scripts/smoke-debug-support.js && node scripts/smoke-sdk-setup.js"
   },
   "categories": [
     "Programming Languages",
@@ -35,9 +37,14 @@
         ],
         "extensions": [
           ".ny",
-          ".ni"
+          ".ni",
+          ".nk"
         ],
-        "configuration": "./language-configuration.json"
+        "configuration": "./language-configuration.json",
+        "icon": {
+          "light": "./assets/file-icon-light.png",
+          "dark": "./assets/file-icon-dark.png"
+        }
       }
     ],
     "configuration": {
@@ -46,17 +53,17 @@
         "nyra.sdkPath": {
           "type": "string",
           "default": "",
-          "description": "Nyra SDK / repo root. Analyzer resolves to <sdkPath>/bin/nyra-analyzer (Nyra product LSP). Empty means the current workspace root."
+          "description": "SDK or compiler checkout root for this VS Code window. Empty searches the workspace, NYRA_SDK, PATH and known installation folders. Use Nyra: Select SDK or Nyra: Install SDK to configure it."
         },
         "nyra.analyzerPath": {
           "type": "string",
           "default": "",
-          "description": "Override path to the language server. Empty means <sdkPath>/bin/nyra-analyzer."
+          "description": "Override path to the language server. Empty uses the selected SDK's host-specific nyra-analyzer binary."
         },
         "nyra.compilerPath": {
           "type": "string",
           "default": "",
-          "description": "Path to product compiler for debug builds. Empty means <sdkPath>/bin/nyrac."
+          "description": "Override path to the compiler for debug builds. Empty uses the selected SDK's host-specific nyrac binary."
         },
         "nyra.debugAdapter": {
           "type": "string",
@@ -110,6 +117,14 @@
       {
         "command": "nyra.debug.initWorkspace",
         "title": "Nyra: Initialize Debug Workspace"
+      },
+      {
+        "command": "nyra.selectSdk",
+        "title": "Nyra: Select SDK"
+      },
+      {
+        "command": "nyra.installSdk",
+        "title": "Nyra: Install SDK"
       }
     ],
     "grammars": [
@@ -130,10 +145,24 @@
         "uiTheme": "vs",
         "path": "./themes/nyra-mist-light-color-theme.json"
       }
+    ],
+    "iconThemes": [
+      {
+        "id": "nyra-seti",
+        "label": "Nyra (Seti)",
+        "path": "./themes/nyra-seti-icon-theme.json"
+      }
     ]
   },
   "dependencies": {
-    "vscode-languageclient": "^9.0.1"
+    "tar": "^7.5.22",
+    "vscode-languageclient": "^9.0.1",
+    "yauzl": "^3.4.0"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "icon": "assets/icon.png",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nylang/nylang-ide-vscode.git"
+  }
 }

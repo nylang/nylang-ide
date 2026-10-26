@@ -1,9 +1,10 @@
 "use strict";
 
 const path = require("path");
+const { toolPath } = require("./sdkDiscovery");
 
 /**
- * Default language-server executable under <sdkPath>/bin.
+ * Default language-server executable name for the extension host.
  * The default is always the Nyra product binary; explicit overrides are for
  * custom Nyra builds.
  */
@@ -39,7 +40,7 @@ function resolveAnalyzerPath(opts) {
   if (!sdkPath) {
     return "";
   }
-  return path.join(sdkPath, "bin", defaultAnalyzerExeName(opts && opts.platform));
+  return toolPath(sdkPath, "nyra-analyzer", opts && opts.platform, opts && opts.arch);
 }
 
 module.exports = {

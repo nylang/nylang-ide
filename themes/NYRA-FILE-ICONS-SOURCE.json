@@ -1,0 +1,43 @@
+{
+  "family": "Nyra File Icons",
+  "license": "OFL-1.1",
+  "source": {
+    "repository": "https://github.com/google/fonts",
+    "commit": "69d0549e8fc7ad72e1531734c81237be401ec4fd",
+    "path": "ofl/robotocondensed/RobotoCondensed[wght].ttf",
+    "sha256": "dace262afcee68a5276f200d8026c57221735c0118ab5fda8c2c0d3dc409a8d0"
+  },
+  "weight": 800,
+  "optical_slant_degrees": 6,
+  "units_per_em": 1000,
+  "reference": "Seti JavaScript actual contour bounds and baseline",
+  "glyphs": {
+    "ny": {
+      "codepoint": "E000",
+      "bounds": [
+        229,
+        306,
+        771,
+        690
+      ]
+    },
+    "ni": {
+      "codepoint": "E001",
+      "bounds": [
+        310,
+        306,
+        690,
+        690
+      ]
+    },
+    "nk": {
+      "codepoint": "E002",
+      "bounds": [
+        229,
+        306,
+        771,
+        690
+      ]
+    }
+  }
+}

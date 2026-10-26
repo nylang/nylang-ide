@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="1280" viewBox="305 290 640 640" role="img" aria-labelledby="title">
+  <title id="title">NyraLang folded N logo</title>
+  <defs>
+    <linearGradient id="left" x1="375" y1="343" x2="507" y2="881" gradientUnits="userSpaceOnUse"><stop stop-color="#0072cd"/><stop offset="1" stop-color="#009ee8"/></linearGradient>
+    <linearGradient id="right" x1="739" y1="343" x2="877" y2="893" gradientUnits="userSpaceOnUse"><stop stop-color="#16c7ec"/><stop offset="1" stop-color="#009fe9"/></linearGradient>
+    <linearGradient id="front" x1="438" y1="343" x2="844" y2="892" gradientUnits="userSpaceOnUse"><stop stop-color="#32d9f3"/><stop offset="1" stop-color="#16bdf0"/></linearGradient>
+  </defs>
+  <path fill="url(#right)" d="M739 636V369Q739 343 765 343H794C843 343 884 332 918 316Q921 315 919 319C889 350 877 380 877 425V863Q877 893 849 893H735Z"/>
+  <path fill="url(#left)" d="M375 373Q375 343 400 343H507V854Q507 881 482 881H393C371 881 349 891 332 900Q329 902 331 898C361 866 375 825 375 788Z"/>
+  <path fill="#005cba" d="M507 494L877 837V865Q877 893 849 893H735L507 634Z"/>
+  <path fill="url(#front)" d="M400 343H530Q542 343 551 357L877 837V865Q877 893 849 893H735L420 369Q408 348 400 343Z"/>
+</svg>

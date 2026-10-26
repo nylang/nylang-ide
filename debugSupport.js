@@ -3,6 +3,7 @@ const fs = require("fs");
 const { spawn } = require("child_process");
 const vscode = require("vscode");
 const { resolveWindowSdkPath } = require("./windowToolchain");
+const { toolPath } = require("./sdkDiscovery");
 
 const CODE_LLDB_ID = "vadimcn.vscode-lldb";
 const CPP_TOOLS_ID = "ms-vscode.cpptools";
@@ -21,8 +22,7 @@ function resolveCompilerPath() {
   if (!sdkPath) {
     return "";
   }
-  const exe = process.platform === "win32" ? "nyrac.exe" : "nyrac";
-  return path.join(sdkPath, "bin", exe);
+  return toolPath(sdkPath, "nyrac");
 }
 
 function exeSuffix() {

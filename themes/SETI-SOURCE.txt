@@ -1,0 +1,6 @@
+Source: https://github.com/microsoft/vscode
+Commit: 6d62b1d5dace93a33b3a6d3eca1317bd5e15bcb1
+Original paths: extensions/theme-seti/icons/vs-seti-icon-theme.json, extensions/theme-seti/icons/seti.woff
+Changes: Nyra letter icon definitions and file/language associations only.
+Upstream theme SHA-256: 2088843e6f00a81870ed2890132fb658cf33406177a5dd58c9c7001e5184ca2a
+Seti font SHA-256: b127762058f89b37b08d76185e3b0558f5c28859e39a3840a27cb28b9739d6e2

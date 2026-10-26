@@ -33,6 +33,7 @@ const sdkB = makeSdk("sdk-b");
 const sdkC = makeSdk("sdk-c");
 const missingAnalyzer = path.join(temp, "missing", "nyra-analyzer");
 const vscodeMock = {
+  StatusBarAlignment: { Left: 1 },
   workspace: {
     workspaceFolders: [makeFolder(sdkA), makeFolder(sdkB)],
     getConfiguration: () => ({ get: (key) => settings[key] || "" }),
@@ -46,6 +47,7 @@ const vscodeMock = {
     },
   },
   window: {
+    createStatusBarItem: () => ({ show() {}, dispose() {} }),
     createOutputChannel: () => ({ appendLine: (line) => outputLines.push(line), show() {} }),
     showWarningMessage: (message) => warnings.push(String(message)),
     showErrorMessage: (message) => { throw new Error(`Unexpected error notification: ${message}`); },

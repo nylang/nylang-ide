@@ -7,6 +7,7 @@ const {
 const { registerDebugSupport } = require("./debugSupport");
 const { resolveAnalyzerPath: resolveAnalyzerBinary } = require("./analyzerPath");
 const { resolveWindowSdkPath, hasSelectedSdk } = require("./windowToolchain");
+const { registerSdkSupport } = require("./sdkSupport");
 
 let client;
 let startPromise;
@@ -16,6 +17,21 @@ let selectedAnalyzerPath = "";
 let stateListener;
 let observedSdkSetting = "";
 let observedAnalyzerSetting = "";
+let sdkSupport;
+let toolchainRefresh = Promise.resolve();
+
+function refreshToolchain(context, refreshSelection = false) {
+  toolchainRefresh = toolchainRefresh.catch(() => {}).then(async () => {
+    resolveWindowSdkPath(vscode, refreshSelection);
+    const nextPath = resolveAnalyzerPath();
+    if (nextPath !== selectedAnalyzerPath || !client) {
+      await stopClient();
+      await startClient(context);
+    }
+    if (sdkSupport) sdkSupport.updateStatus();
+  });
+  return toolchainRefresh;
+}
 
 function log(message) {
   if (output) output.appendLine(`[${new Date().toISOString()}] ${message}`);
@@ -44,16 +60,16 @@ async function startClient(context) {
   const analyzerPath = resolveAnalyzerPath();
   selectedAnalyzerPath = analyzerPath;
   if (!analyzerPath) {
-    const message = "Nyra analyzer not started: sdkPath is empty and no workspace root found.";
+    const message = "Nyra SDK not found. Select an existing SDK or install the official SDK to enable analysis and debugging.";
     log(message);
-    if (lastStartFailure !== message) vscode.window.showWarningMessage(message);
+    if (lastStartFailure !== message) void sdkSupport.offerSetup(message);
     lastStartFailure = message;
     return;
   }
   if (!fs.existsSync(analyzerPath)) {
-    const message = `Nyra analyzer not found: ${analyzerPath}. Build it with “nyrac build source/analyzer/main.ny --link” or set nyra.sdkPath / nyra.analyzerPath.`;
+    const message = `Nyra analyzer not found: ${analyzerPath}. Select or install an SDK, or correct nyra.analyzerPath for a custom build.`;
     log(message);
-    if (lastStartFailure !== message) vscode.window.showWarningMessage(message);
+    if (lastStartFailure !== message) void sdkSupport.offerSetup(message);
     lastStartFailure = message;
     return;
   }
@@ -130,6 +146,7 @@ async function activate(context) {
   context.subscriptions.push(output);
   observedSdkSetting = currentSetting("sdkPath");
   observedAnalyzerSetting = currentSetting("analyzerPath");
+  sdkSupport = registerSdkSupport(vscode, context, { log, refresh: () => refreshToolchain(context) });
   registerDebugSupport(context);
 
   context.subscriptions.push(
@@ -153,17 +170,7 @@ async function activate(context) {
       if (sdkChanged || analyzerChanged) {
         observedSdkSetting = sdkSetting;
         observedAnalyzerSetting = analyzerSetting;
-        if (sdkChanged) {
-          resolveWindowSdkPath(vscode, true);
-        }
-        const nextPath = resolveAnalyzerPath();
-        if (nextPath !== selectedAnalyzerPath || !client) {
-          log(`Nyra toolchain settings changed; analyzer=${nextPath || "(unresolved)"}.`);
-          await stopClient();
-          await startClient(context);
-        } else {
-          log("Nyra toolchain settings changed; resolved analyzer is unchanged.");
-        }
+        await refreshToolchain(context, sdkChanged);
       }
     })
   );
