@@ -1,6 +1,6 @@
 {
   "name": "nyra-lang",
-  "displayName": "Nyra Language",
+  "displayName": "NyraLang",
   "description": "Syntax, themes, LSP, and debug for Nyra (.ny / .ni / .nk)",
   "version": "0.24.7",
   "publisher": "nyra",

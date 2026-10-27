@@ -3,7 +3,7 @@
   <img src="assets/logo.png" alt="Nyra folded N logo" width="160">
 </picture>
 
-# Nyra VS Code extension
+# NyraLang for Visual Studio Code
 
 Provides Nyra syntax highlighting, themes, LSP features, and native debugging
 for `.ny`, `.ni`, and `.nk` files. Semantic features come from the Nyra-built
