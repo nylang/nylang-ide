@@ -144,3 +144,14 @@ python3 scripts/build-file-icons.py --source-font /path/to/RobotoCondensed.ttf -
 
 Keep the generated font, outline exports, PNG fallbacks and license notice in
 sync. The primary extension logo remains separate from these file glyphs.
+
+### Native package context (SDK 1.0.3)
+
+SDK v2 installs `nyra`, `nyrac` and `nyra-analyzer` in the host bin directory and
+uses package-first runtime entries. Older SDK layouts remain discoverable.
+The analyzer discovers the nearest `workspace.yaml` for each entry by default.
+For an explicit window-wide selection, set `nyra.analyzerArguments` to
+`["--workspace", "/path/to/workspace.yaml", "--cache-scope", "local"]`; use
+`["--no-workspace"]` to disable it. Arguments are passed directly to the native
+process. Changes restart the language server. Run `nyra fetch` or `nyra lock`
+explicitly before analysis when upstream dependencies need preparation.

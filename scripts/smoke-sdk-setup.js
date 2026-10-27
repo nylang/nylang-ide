@@ -61,6 +61,14 @@ async function run() {
     assert.ok(inspectSdk(sdk));
     assert.strictEqual(inspectSdk(sdk, "linux", "ia32"), undefined);
     assert.ok(toolPath(sdk, "nyrac").includes(path.join("hosts", hostKey(), "bin")));
+    const packageFirst = path.join(temp, "package-first-sdk");
+    const packageManifest = fixture(packageFirst);
+    packageManifest.format = "nyra-sdk-v2"; packageManifest.schema_version = 2;
+    write(path.join(packageFirst,"manifest.json"),JSON.stringify(packageManifest));
+    assert.strictEqual(inspectSdk(packageFirst),undefined,"SDK v2 requires the native package manager");
+    const managerPath=path.join(packageFirst,"hosts",hostKey(),"bin",process.platform==="win32"?"nyra.exe":"nyra");
+    write(managerPath,"fixture native nyra");
+    assert.strictEqual(inspectSdk(packageFirst).manager,managerPath);
     const windows = path.join(temp, "windows-sdk");
     fixture(windows, "win32", "x64");
     assert.ok(inspectSdk(windows, "win32", "x64").analyzer.endsWith("nyra-analyzer.exe"));

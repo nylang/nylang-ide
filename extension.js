@@ -20,11 +20,11 @@ let observedAnalyzerSetting = "";
 let sdkSupport;
 let toolchainRefresh = Promise.resolve();
 
-function refreshToolchain(context, refreshSelection = false) {
+function refreshToolchain(context, refreshSelection = false, forceRestart = false) {
   toolchainRefresh = toolchainRefresh.catch(() => {}).then(async () => {
     resolveWindowSdkPath(vscode, refreshSelection);
     const nextPath = resolveAnalyzerPath();
-    if (nextPath !== selectedAnalyzerPath || !client) {
+    if (nextPath !== selectedAnalyzerPath || !client || forceRestart) {
       await stopClient();
       await startClient(context);
     }
@@ -76,8 +76,13 @@ async function startClient(context) {
   lastStartFailure = "";
   log(`Starting analyzer; sdk=${sdkPath || "(unset)"}; executable=${analyzerPath}`);
 
+  const configuredArguments = vscode.workspace.getConfiguration("nyra").get("analyzerArguments") || [];
+  if (!Array.isArray(configuredArguments) || configuredArguments.some(value => typeof value !== "string")) {
+    throw new Error("nyra.analyzerArguments must be an array of strings.");
+  }
   const serverOptions = {
     command: analyzerPath,
+    args: [...configuredArguments],
     transport: TransportKind.stdio,
   };
 
@@ -167,10 +172,11 @@ async function activate(context) {
       const analyzerSetting = currentSetting("analyzerPath");
       const sdkChanged = ev.affectsConfiguration("nyra.sdkPath") && sdkSetting !== observedSdkSetting;
       const analyzerChanged = ev.affectsConfiguration("nyra.analyzerPath") && analyzerSetting !== observedAnalyzerSetting;
-      if (sdkChanged || analyzerChanged) {
+      const argumentsChanged = ev.affectsConfiguration("nyra.analyzerArguments");
+      if (sdkChanged || analyzerChanged || argumentsChanged) {
         observedSdkSetting = sdkSetting;
         observedAnalyzerSetting = analyzerSetting;
-        await refreshToolchain(context, sdkChanged);
+        await refreshToolchain(context, sdkChanged, argumentsChanged);
       }
     })
   );

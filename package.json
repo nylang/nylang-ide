@@ -74,6 +74,14 @@
           ],
           "default": "auto",
           "description": "Native debugger: auto (prefer CodeLLDB), lldb, or cppdbg (Microsoft C/C++)."
+        },
+        "nyra.analyzerArguments": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": [],
+          "description": "Arguments for the native analyzer, such as --workspace /path/workspace.yaml, --no-workspace, --cache-scope local, --target TRIPLE or --package-profile PROFILE. Changes restart the language server."
         }
       }
     },

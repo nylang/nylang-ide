@@ -186,7 +186,7 @@ async function installSdk(release, parent, { signal, progress = () => {}, downlo
     if (!sdk) throw new Error("The extracted SDK is missing its compiler/analyzer or has the wrong host.");
     const manifest = JSON.parse(await fs.promises.readFile(path.join(root, "manifest.json"), "utf8"));
     if (manifest.version !== release.version) throw new Error("SDK manifest version mismatch.");
-    for (const [tool, file] of [["nyrac", sdk.compiler], ["nyra-analyzer", sdk.analyzer]]) {
+    for (const [tool, file] of [["nyrac", sdk.compiler], ["nyra-analyzer", sdk.analyzer], ...(sdk.manager ? [["nyra",sdk.manager]] : [])]) {
       const expected = manifest.tools && manifest.tools[tool] && manifest.tools[tool].sha256;
       if (!HASH.test(expected || "") || await hashFile(file, signal) !== expected) throw new Error(`SDK ${tool} SHA-256 verification failed.`);
       if (platform !== "win32") await fs.promises.chmod(file, 0o755);

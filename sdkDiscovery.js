@@ -19,7 +19,7 @@ function toolPath(root, tool, platform = process.platform, arch = process.arch) 
   if (!root) return "";
   const manifest = sdkManifest(root);
   const exe = tool + (platform === "win32" ? ".exe" : "");
-  if (manifest && manifest.format === "nyra-sdk-v1") {
+  if (manifest && ["nyra-sdk-v1", "nyra-sdk-v2"].includes(manifest.format)) {
     return path.join(root, "hosts", hostKey(platform, arch) || "unsupported", "bin", exe);
   }
   return path.join(root, "bin", exe);
@@ -33,12 +33,14 @@ function inspectSdk(root, platform = process.platform, arch = process.arch) {
   if (!root) return undefined;
   root = path.resolve(root);
   const manifest = sdkManifest(root);
-  if (isFile(path.join(root, "manifest.json")) && (!manifest || manifest.format !== "nyra-sdk-v1")) return undefined;
-  if (manifest && manifest.format === "nyra-sdk-v1" && manifest.host !== hostKey(platform, arch)) return undefined;
+  if (isFile(path.join(root, "manifest.json")) && (!manifest || !["nyra-sdk-v1", "nyra-sdk-v2"].includes(manifest.format))) return undefined;
+  if (manifest && ["nyra-sdk-v1", "nyra-sdk-v2"].includes(manifest.format) && manifest.host !== hostKey(platform, arch)) return undefined;
   const compiler = toolPath(root, "nyrac", platform, arch);
   const analyzer = toolPath(root, "nyra-analyzer", platform, arch);
   if (!isFile(compiler) || !isFile(analyzer)) return undefined;
-  return { root, compiler, analyzer, version: manifest && manifest.version || "development", host: hostKey(platform, arch) };
+  const manager = manifest && manifest.format === "nyra-sdk-v2" ? toolPath(root,"nyra",platform,arch) : "";
+  if (manager && (!isFile(manager) || manifest.schema_version !== 2)) return undefined;
+  return { root, compiler, analyzer, manager, version: manifest && manifest.version || "development", host: hostKey(platform, arch) };
 }
 
 function candidateRoots(opts = {}) {

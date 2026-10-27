@@ -9,7 +9,7 @@ const path = require("path");
 const Module = require("module");
 
 const temp = fs.mkdtempSync(path.join(os.tmpdir(), "nyra-vscode-lifecycle-"));
-const settings = { sdkPath: "", analyzerPath: "" };
+const settings = { sdkPath: "", analyzerPath: "", analyzerArguments: ["--no-workspace", "--cache-scope", "local"] };
 const outputLines = [];
 const warnings = [];
 const infos = [];
@@ -107,6 +107,7 @@ async function run() {
     await extension.activate(context);
     assert.strictEqual(clients.length, 1);
     assert.strictEqual(clients[0].serverOptions.command, path.join(sdkA, "bin", "nyra-analyzer"));
+    assert.deepStrictEqual(clients[0].serverOptions.args, settings.analyzerArguments);
     assert.strictEqual(clients[0].clientOptions.documentSelector[0].language, "nyra");
     assert.strictEqual(clients[0].clientOptions.workspaceFolder, undefined, "LanguageClient must track all workspace folders");
     assert.match(outputLines.join("\n"), /Analyzer state: starting -> running/);
