@@ -124,8 +124,9 @@ the extension-specific letter badges.
 
 Install the newest VSIX using **Extensions: Install from VSIX**, then run
 **Developer: Reload Window**. For a same-version local rebuild, use
-`code --install-extension /path/to/extension.vsix --force`. Version 0.24.7 adds
-SDK discovery, selection and verified installation, retaining the blue folded N.
+`code --install-extension /path/to/extension.vsix --force`. Version 0.24.8 adds
+native package creation and initialization with preview and explicit workspace
+registration, alongside SDK discovery, selection and verified installation.
 The Nyra (Seti) file icon theme uses
 its dedicated letter-glyph font.
 

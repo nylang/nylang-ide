@@ -1,6 +1,7 @@
 .vscode/**
 .nyra-debug/**
 scripts/**
+tests/**
 node_modules/**/test/**
 **/*.md
 !README.md
