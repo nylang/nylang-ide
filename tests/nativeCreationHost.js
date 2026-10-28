@@ -4,11 +4,11 @@ const fs = require("fs");
 const os = require("os");
 const path = require("path");
 const vscode = require("vscode");
-const { runNative, resolveManager } = require("../packageCreation");
 exports.run = async function () {
   const extension = vscode.extensions.getExtension("nyra.nyra-lang");
   assert.ok(extension, "development extension is registered");
   await extension.activate();
+  const { runNative, resolveManager } = require(path.join(extension.extensionPath, "packageCreation"));
   const commands = await vscode.commands.getCommands(true);
   assert.ok(commands.includes("nyra.package.create"));
   assert.ok(commands.includes("nyra.package.initialize"));
