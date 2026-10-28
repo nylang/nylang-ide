@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.24.8
+
+- Add native Create Package and Initialize Package commands and folder actions.
+- Preview app/library creation and optional workspace registration through SDK 1.0.4 nyra.
+- Add packageManagerPath, cooperative cancellation and actionable old/missing SDK errors.
+- Open or add created packages using the existing window/analyzer lifecycle.
+
 ## 0.24.7
 
 - Discover installed SDKs from workspace roots, NYRA_SDK, PATH and known user

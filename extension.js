@@ -8,6 +8,7 @@ const { registerDebugSupport } = require("./debugSupport");
 const { resolveAnalyzerPath: resolveAnalyzerBinary } = require("./analyzerPath");
 const { resolveWindowSdkPath, hasSelectedSdk } = require("./windowToolchain");
 const { registerSdkSupport } = require("./sdkSupport");
+const { registerPackageCreation } = require("./packageCreation");
 
 let client;
 let startPromise;
@@ -153,6 +154,7 @@ async function activate(context) {
   observedAnalyzerSetting = currentSetting("analyzerPath");
   sdkSupport = registerSdkSupport(vscode, context, { log, refresh: () => refreshToolchain(context) });
   registerDebugSupport(context);
+  registerPackageCreation(vscode, context, { log });
 
   context.subscriptions.push(
     vscode.commands.registerCommand("nyra.showOutput", () => output.show(true))

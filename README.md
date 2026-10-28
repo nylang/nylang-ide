@@ -155,3 +155,19 @@ For an explicit window-wide selection, set `nyra.analyzerArguments` to
 `["--no-workspace"]` to disable it. Arguments are passed directly to the native
 process. Changes restart the language server. Run `nyra fetch` or `nyra lock`
 explicitly before analysis when upstream dependencies need preparation.
+
+## Create and initialize packages (SDK 1.0.4)
+
+Use **Nyra: Create Package** or **Nyra: Initialize Package** from the command
+palette or an Explorer folder menu. Choose the destination, application/library
+kind and package identity, then explicitly choose standalone or Nyra workspace
+registration. Review the native file plan before creating. Existing source is
+retained by initialization. The editor invokes native `nyra new`/`nyra init`;
+it does not generate templates or rewrite YAML itself.
+
+`nyra.packageManagerPath` overrides the native manager; otherwise the selected
+window SDK supplies it. Older public SDKs without schema-1 creation support
+show Select SDK / Install SDK / Show Output actions. No automatic SDK replacement
+occurs. Creation needs a trusted filesystem workspace on the current extension
+host. Cancellation waits for native cleanup and reports partial failures.
+After success, open the folder, add it to the current window or keep that window.
